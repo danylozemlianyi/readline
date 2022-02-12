@@ -13,29 +13,32 @@ char *resize(const char *str, unsigned size, unsigned new_size)
 
 char *getline()
 {
-    char * str = new char[1];
+    char * rez = new char[1];
     int i = 0;
     char ch;
     cin.get(ch);
+    int size = 1;
     
     if ((ch == '\0')||(ch == '\n')) {
-    str [0] = '\0';
-        return str;
+    rez [0] = '\0';
+        return rez;
     }
-    str [0] = ch;
-    while (true) {
-        
-    str = resize(str, i+1, i+2);
-    cin.get(ch);
+    rez [0] = ch;
     
-    if ((ch == '\0')||(ch == '\n')) {
-        str [i+1] = '\0';
-        return str;
-        }
-        
-     str[i+1] = ch;
+    while (cin.get(ch) && ch != '\n' && ch != cin.eof()) {
+    if (i + 1 == size) {
+        rez = resize(rez, size, size*2);
+        size *= 2;
+    }  
+    rez[i+1] = ch;
      ++i;
     }
+    if (i + 1 == size) {
+        rez = resize(rez, size, size+1);
+        size += 1;
+    }
+    rez [i+1] = '\0';
+    return rez;
 }
 
 int main(){
